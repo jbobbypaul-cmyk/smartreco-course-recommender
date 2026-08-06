@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite3
+chroma_data/
+.pytest_cache/
+.coverage
+.langsmith/
+*.log
+.DS_Store
+Thumbs.db
+

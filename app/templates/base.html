@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SmartReco</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">SmartReco</a>
+    <span>Behavior-aware learning journeys</span>
+    <nav class="header-nav">
+      {% if user %}
+        {% if user.role == 'admin' %}<a href="/admin">Catalog admin</a>{% endif %}
+        <form action="/logout" method="post"><button>Sign out</button></form>
+      {% endif %}
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <script src="/static/tracker.js" defer></script>
+</body>
+</html>

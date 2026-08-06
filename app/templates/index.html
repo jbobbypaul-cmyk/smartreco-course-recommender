@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not user %}
+<section class="hero">
+  <h1>Discover what moves you forward.</h1>
+  <p>Browse naturally. SmartReco adapts your path from meaningful behavior.</p>
+  <div class="auth">
+    <form action="/login" method="post"><h2>Sign in</h2><input name="email" type="email" placeholder="Email" required><input name="password" type="password" placeholder="Password" required><button>Sign in</button></form>
+    <form action="/register" method="post"><h2>Create account</h2><input name="email" type="email" placeholder="Email" required><input name="password" type="password" minlength="8" placeholder="Password" required><button>Join</button></form>
+  </div>
+</section>
+{% else %}
+<section>
+  <h1>Welcome back</h1>
+  <form id="search"><input id="search-input" placeholder="Search AI, design, leadership…"><button>Search</button></form>
+</section>
+
+{% if reco %}
+<section class="recommendation">
+  <small>YOUR ADAPTIVE PATH</small>
+  <h2>Recommended for you</h2>
+  <p>{{ reco.narrative }}</p>
+  {% if reco_why %}<p class="reco-why"><strong>Why this:</strong> {{ reco_why }}</p>{% endif %}
+  <div class="grid">
+    {% for p in reco_products %}
+      {% if p %}
+      <article>
+        <span>{{ p.category }}</span>
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.description }}</p>
+        <strong>${{ '%.2f'|format(p.price) }}</strong>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if reco_trace %}
+  <details class="agent-trace" open>
+    <summary>Agent workflow trace</summary>
+    <ol>
+      {% for step in reco_trace %}
+      <li>
+        <strong>{{ step.node }}</strong>
+        <span>{{ step.detail }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+    {% if reco_selected %}
+    <p class="trace-selected">Grounded picks:
+      {% for item in reco_selected %}
+        #{{ item.id }} {{ item.title }} ({{ '%.2f'|format(item.score) }}){% if not loop.last %}; {% endif %}
+      {% endfor %}
+    </p>
+    {% endif %}
+  </details>
+  {% endif %}
+</section>
+{% endif %}
+
+<section>
+  <h2>Explore the catalog</h2>
+  <div class="grid">
+    {% for p in products %}
+    <article data-product-id="{{ p.id }}">
+      <span>{{ p.category }} · {{ p.level }}</span>
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.description }}</p>
+      <strong>${{ '%.2f'|format(p.price) }}</strong>
+      <button class="view-product">Explore course</button>
+    </article>
+    {% else %}
+    <p>The admin can add the first product.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

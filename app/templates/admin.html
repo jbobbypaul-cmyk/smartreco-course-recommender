@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Catalog control room</h1>
+
+<section class="smtp-panel">
+  <h2>Proactive email digest</h2>
+  <p class="vector-summary">
+    SMTP:
+    {% if smtp.configured %}
+      configured · {{ smtp.host }}:{{ smtp.port }} · from {{ smtp.from }} · {{ smtp.schedule }}
+    {% else %}
+      not configured — set SMTP_HOST / SMTP_USERNAME / SMTP_PASSWORD in .env
+    {% endif %}
+  </p>
+  {% if digest_flash %}
+    <p class="digest-flash">
+      {% if digest_flash == 'smtp_missing' %}Digest not sent: SMTP is not configured in .env.
+      {% elif digest_flash.startswith('sent_') %}Digest run complete. Emails sent: {{ digest_flash.split('_')[1] }}.
+      {% elif digest_flash.startswith('failed_') %}Digest finished with failures: {{ digest_flash.split('_')[1] }}. Check server logs.
+      {% else %}Digest status: {{ digest_flash }}{% endif %}
+    </p>
+  {% endif %}
+  <form method="post" action="/admin/digest/send-now">
+    <button type="submit" {% if not smtp.configured %}disabled title="Configure SMTP in .env first"{% endif %}>Send digests now</button>
+  </form>
+</section>
+
+<p class="vector-summary">
+  Vector sync: {{ vector_synced }} synced · {{ vector_pending }} pending · {{ vector_errored }} error
+  {% if vector_errored %} — retry after fixing Mesh/network issues{% endif %}
+</p>
+{% if vector_errored %}
+<form method="post" action="/admin/vectors/retry-failed" class="retry-all">
+  <button type="submit">Retry all failed vector syncs</button>
+</form>
+{% endif %}
+<form class="product-form" method="post" action="/admin/products">
+  <input name="title" placeholder="Title" required>
+  <textarea name="description" placeholder="Description" required></textarea>
+  <input name="category" placeholder="Category" required>
+  <input name="level" placeholder="Level" value="All levels">
+  <input name="price" type="number" min="0" step=".01" placeholder="Price" required>
+  <button>Add and vectorize</button>
+</form>
+<table>
+  <tr><th>Products and vector state</th></tr>
+  {% for p in products %}
+  <tr>
+    <td>
+      <form method="post" action="/admin/products/{{ p.id }}/edit" class="inline-edit">
+        <input name="title" value="{{ p.title }}" required>
+        <input name="description" value="{{ p.description }}" required>
+        <input name="category" value="{{ p.category }}" required>
+        <input name="level" value="{{ p.level }}" required>
+        <input name="price" type="number" step=".01" value="{{ p.price }}" required>
+        <span class="vector-status vector-{{ p.vector_status }}">{{ p.vector_status }}</span>
+        <button>Save</button>
+      </form>
+      <div class="product-actions">
+        {% if p.active %}
+        <form method="post" action="/admin/products/{{ p.id }}/delete"><button type="submit">Archive</button></form>
+        {% else %}
+        <em>archived</em>
+        {% endif %}
+        {% if p.vector_status != 'synced' %}
+        <form method="post" action="/admin/products/{{ p.id }}/retry-vector"><button type="submit">Retry vector</button></form>
+        {% endif %}
+      </div>
+      {% if p.vector_last_error %}
+      <p class="vector-error-msg">Last error: {{ p.vector_last_error }}</p>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
