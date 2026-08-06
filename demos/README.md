@@ -1,6 +1,11 @@
-# SmartReco judge demo
+# SmartReco demo assets
 
-- `smartreco-judge-demo.mp4` — short automated walkthrough for competition judges
-- Recorded with `scripts/record_demo.py` against the local FastAPI app
+| File | Purpose |
+|---|---|
+| [`smartreco-judge-demo.mp4`](smartreco-judge-demo.mp4) | Judge walkthrough video |
+| [`SmartReco_Infographic_2_Slides.pptx`](SmartReco_Infographic_2_Slides.pptx) | Presentation / infographic slides |
+| [`smartreco-behavior-ai-course-recommender.png`](smartreco-behavior-ai-course-recommender.png) | Thumbnail / cover image |
 
-Covers: learner signup, behavioral search/browse, recommendation narrative + LangGraph trace, admin dual-write vector status, and digest/observability callouts.
+Also published on the GitHub Release `demo-v1`.
+
+The MP4 was recorded with `scripts/record_demo.py` against the local FastAPI app (signup → tracking → recommendations + LangGraph trace → admin dual-write → digest/observability).

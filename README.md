@@ -58,9 +58,15 @@ The repository includes the official `.github/workflows/smartreco-checks.yml` fr
 
 For the LangSmith observability bonus, set `LANGCHAIN_TRACING_V2=true` plus `LANGCHAIN_API_KEY` and `LANGCHAIN_PROJECT` in `.env`.
 
-## Demo video
+## Demo assets
 
-A judge walkthrough is included at [`demos/smartreco-judge-demo.mp4`](demos/smartreco-judge-demo.mp4) and also attached to the GitHub Release.
+For judges:
+
+- **Video:** [`demos/smartreco-judge-demo.mp4`](demos/smartreco-judge-demo.mp4)
+- **Presentation:** [`demos/SmartReco_Infographic_2_Slides.pptx`](demos/SmartReco_Infographic_2_Slides.pptx)
+- **Thumbnail:** [`demos/smartreco-behavior-ai-course-recommender.png`](demos/smartreco-behavior-ai-course-recommender.png)
+
+Also attached to the GitHub Release: https://github.com/jbobbypaul-cmyk/smartreco-course-recommender/releases/tag/demo-v1
 
 Suggested live demo flow:
 
