@@ -58,12 +58,16 @@ The repository includes the official `.github/workflows/smartreco-checks.yml` fr
 
 For the LangSmith observability bonus, set `LANGCHAIN_TRACING_V2=true` plus `LANGCHAIN_API_KEY` and `LANGCHAIN_PROJECT` in `.env`.
 
-## Suggested demo flow
+## Demo video
 
-1. Sign in as admin and add several courses; show `vector_status=sync`.
+A judge walkthrough is included at [`demos/smartreco-judge-demo.mp4`](demos/smartreco-judge-demo.mp4) and also attached to the GitHub Release.
+
+Suggested live demo flow:
+
+1. Sign in as admin and add several courses; show `vector_status=synced`.
 2. Register as a user, search “agentic AI,” inspect advanced AI courses, and linger on them.
-3. After enough signal, refresh the page to reveal the adaptive narrative and real catalog cards.
-4. Show the events/recommendations rows and LangGraph node trace.
+3. After enough signal, refresh the page to reveal the adaptive narrative, grounded cards, and agent workflow trace.
+4. Show LangSmith traces (project `smartreco`) and optional SendGrid digest from `/admin`.
 5. Change behavior toward product leadership and demonstrate the updated path.
 
 ## Responsible-use notes
